@@ -202,7 +202,7 @@ namespace MVRegistry.KeyValue
             return reglist;
         }
 
-        public string Get(string name)
+        public string GetValue(string name)
         {
             if (string.IsNullOrEmpty(name))
                 throw new ArgumentNullException("name is empty");
