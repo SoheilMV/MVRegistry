@@ -18,6 +18,6 @@ namespace MVRegistry.KeyValue
         void CreateUnknown(string Name, object Value);
         void Delete(string Name);
         string[] GetNames();
-        string Get(string Name);
+        string GetValue(string Name);
     }
 }
