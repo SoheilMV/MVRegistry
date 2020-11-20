@@ -1,4 +1,4 @@
-﻿using Microsoft.Win32;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,12 +7,15 @@ using System.Threading.Tasks;
 
 namespace MVRegistry.KeyValue
 {
-    public class RegKey : IRegKey
+    internal class RegKey : IRegKey, IDisposable
     {
         RegistryKey reg;
 
-        public void Create(string Name)
+        public void Create(string name)
         {
+            if (string.IsNullOrEmpty(name))
+                throw new ArgumentNullException("name is empty");
+
             if (Config.HKEY == HKEY.ClassesRoot)
                 reg = Registry.ClassesRoot.OpenSubKey(Config.Address, true);
             else if (Config.HKEY == HKEY.CurrentUser)
@@ -23,15 +26,18 @@ namespace MVRegistry.KeyValue
                 reg = Registry.Users.OpenSubKey(Config.Address, true);
             else
                 reg = Registry.CurrentConfig.OpenSubKey(Config.Address, true);
-            if (reg.OpenSubKey(Name) == null)
+            if (reg.OpenSubKey(name) == null)
             {
-                reg.CreateSubKey(Name);
+                reg.CreateSubKey(name);
             }
             reg.Close();
         }
 
-        public void Delete(string Name)
+        public void Delete(string name)
         {
+            if (string.IsNullOrEmpty(name))
+                throw new ArgumentNullException("name is empty");
+
             if (Config.HKEY == HKEY.ClassesRoot)
                 reg = Registry.ClassesRoot.OpenSubKey(Config.Address, true);
             else if (Config.HKEY == HKEY.CurrentUser)
@@ -42,9 +48,9 @@ namespace MVRegistry.KeyValue
                 reg = Registry.Users.OpenSubKey(Config.Address, true);
             else
                 reg = Registry.CurrentConfig.OpenSubKey(Config.Address, true);
-            if (reg.OpenSubKey(Name) != null)
+            if (reg.OpenSubKey(name) != null)
             {
-                reg.DeleteSubKeyTree(Name);
+                reg.DeleteSubKeyTree(name);
             }
             reg.Close();
         }
@@ -68,6 +74,9 @@ namespace MVRegistry.KeyValue
 
         public bool Exists(string name)
         {
+            if (string.IsNullOrEmpty(name))
+                throw new ArgumentNullException("name is empty");
+
             if (Config.HKEY == HKEY.ClassesRoot)
                 reg = Registry.ClassesRoot.OpenSubKey(Config.Address, true);
             else if (Config.HKEY == HKEY.CurrentUser)
@@ -90,6 +99,12 @@ namespace MVRegistry.KeyValue
             }
             reg.Close();
             return allow;
+        }
+
+        public void Dispose()
+        {
+            reg.Close();
+            reg.Dispose();
         }
     }
 }
