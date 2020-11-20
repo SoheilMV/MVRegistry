@@ -1,18 +1,18 @@
-﻿using Microsoft.Win32;
+using Microsoft.Win32;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace MVRegistry.KeyValue
 {
-    class RegValue : IRegValue
+    internal class RegValue : IRegValue, IDisposable
     {
         RegistryKey reg;
 
-        public void CreateBinary(string Name, byte[] Value)
+        public void CreateBinary(string name, byte[] value)
         {
+            if (string.IsNullOrEmpty(name))
+                throw new ArgumentNullException("name is empty");
+
             if (Config.HKEY == HKEY.ClassesRoot)
                 reg = Registry.ClassesRoot.OpenSubKey(Config.Address, true);
             else if (Config.HKEY == HKEY.CurrentUser)
@@ -23,12 +23,15 @@ namespace MVRegistry.KeyValue
                 reg = Registry.Users.OpenSubKey(Config.Address, true);
             else
                 reg = Registry.CurrentConfig.OpenSubKey(Config.Address, true);
-            reg.SetValue(Name, Value, RegistryValueKind.Binary);
+            reg.SetValue(name, value, RegistryValueKind.Binary);
             reg.Close();
         }
 
-        public void CreateBinary(string Name, string Value)
+        public void CreateBinary(string name, string value, Encoding encoding)
         {
+            if (string.IsNullOrEmpty(name))
+                throw new ArgumentNullException("name is empty");
+
             if (Config.HKEY == HKEY.ClassesRoot)
                 reg = Registry.ClassesRoot.OpenSubKey(Config.Address, true);
             else if (Config.HKEY == HKEY.CurrentUser)
@@ -39,13 +42,16 @@ namespace MVRegistry.KeyValue
                 reg = Registry.Users.OpenSubKey(Config.Address, true);
             else
                 reg = Registry.CurrentConfig.OpenSubKey(Config.Address, true);
-            var data = Encoding.UTF8.GetBytes(Value);
-            reg.SetValue(Name, data, RegistryValueKind.Binary);
+            var data = encoding.GetBytes(value);
+            reg.SetValue(name, data, RegistryValueKind.Binary);
             reg.Close();
         }
 
-        public void CreateDWord(string Name, int Value)
+        public void CreateDWord(string name, int value)
         {
+            if (string.IsNullOrEmpty(name))
+                throw new ArgumentNullException("name is empty");
+
             if (Config.HKEY == HKEY.ClassesRoot)
                 reg = Registry.ClassesRoot.OpenSubKey(Config.Address, true);
             else if (Config.HKEY == HKEY.CurrentUser)
@@ -56,12 +62,15 @@ namespace MVRegistry.KeyValue
                 reg = Registry.Users.OpenSubKey(Config.Address, true);
             else
                 reg = Registry.CurrentConfig.OpenSubKey(Config.Address, true);
-            reg.SetValue(Name, Value, RegistryValueKind.DWord);
+            reg.SetValue(name, value, RegistryValueKind.DWord);
             reg.Close();
         }
 
-        public void CreateExpandString(string Name, string Value)
+        public void CreateExpandString(string name, string value)
         {
+            if (string.IsNullOrEmpty(name))
+                throw new ArgumentNullException("name is empty");
+
             if (Config.HKEY == HKEY.ClassesRoot)
                 reg = Registry.ClassesRoot.OpenSubKey(Config.Address, true);
             else if (Config.HKEY == HKEY.CurrentUser)
@@ -72,12 +81,15 @@ namespace MVRegistry.KeyValue
                 reg = Registry.Users.OpenSubKey(Config.Address, true);
             else
                 reg = Registry.CurrentConfig.OpenSubKey(Config.Address, true);
-            reg.SetValue(Name, Value, RegistryValueKind.ExpandString);
+            reg.SetValue(name, value, RegistryValueKind.ExpandString);
             reg.Close();
         }
 
-        public void CreateMultiString(string Name, string[] Value)
+        public void CreateMultiString(string name, string[] value)
         {
+            if (string.IsNullOrEmpty(name))
+                throw new ArgumentNullException("name is empty");
+
             if (Config.HKEY == HKEY.ClassesRoot)
                 reg = Registry.ClassesRoot.OpenSubKey(Config.Address, true);
             else if (Config.HKEY == HKEY.CurrentUser)
@@ -88,12 +100,15 @@ namespace MVRegistry.KeyValue
                 reg = Registry.Users.OpenSubKey(Config.Address, true);
             else
                 reg = Registry.CurrentConfig.OpenSubKey(Config.Address, true);
-            reg.SetValue(Name, Value, RegistryValueKind.MultiString);
+            reg.SetValue(name, value, RegistryValueKind.MultiString);
             reg.Close();
         }
 
-        public void CreateQWord(string Name, int Value)
+        public void CreateQWord(string name, int value)
         {
+            if (string.IsNullOrEmpty(name))
+                throw new ArgumentNullException("name is empty");
+
             if (Config.HKEY == HKEY.ClassesRoot)
                 reg = Registry.ClassesRoot.OpenSubKey(Config.Address, true);
             else if (Config.HKEY == HKEY.CurrentUser)
@@ -104,12 +119,15 @@ namespace MVRegistry.KeyValue
                 reg = Registry.Users.OpenSubKey(Config.Address, true);
             else
                 reg = Registry.CurrentConfig.OpenSubKey(Config.Address, true);
-            reg.SetValue(Name, Value, RegistryValueKind.QWord);
+            reg.SetValue(name, value, RegistryValueKind.QWord);
             reg.Close();
         }
 
-        public void CreateString(string Name, string Value)
+        public void CreateString(string name, string value)
         {
+            if (string.IsNullOrEmpty(name))
+                throw new ArgumentNullException("name is empty");
+
             if (Config.HKEY == HKEY.ClassesRoot)
                 reg = Registry.ClassesRoot.OpenSubKey(Config.Address, true);
             else if (Config.HKEY == HKEY.CurrentUser)
@@ -120,12 +138,15 @@ namespace MVRegistry.KeyValue
                 reg = Registry.Users.OpenSubKey(Config.Address, true);
             else
                 reg = Registry.CurrentConfig.OpenSubKey(Config.Address, true);
-            reg.SetValue(Name, Value, RegistryValueKind.String);
+            reg.SetValue(name, value, RegistryValueKind.String);
             reg.Close();
         }
 
-        public void CreateUnknown(string Name, object Value)
+        public void CreateUnknown(string name, object value)
         {
+            if (string.IsNullOrEmpty(name))
+                throw new ArgumentNullException("name is empty");
+
             if (Config.HKEY == HKEY.ClassesRoot)
                 reg = Registry.ClassesRoot.OpenSubKey(Config.Address, true);
             else if (Config.HKEY == HKEY.CurrentUser)
@@ -136,12 +157,15 @@ namespace MVRegistry.KeyValue
                 reg = Registry.Users.OpenSubKey(Config.Address, true);
             else
                 reg = Registry.CurrentConfig.OpenSubKey(Config.Address, true);
-            reg.SetValue(Name, Value, RegistryValueKind.Unknown);
+            reg.SetValue(name, value, RegistryValueKind.Unknown);
             reg.Close();
         }
 
-        public void Delete(string Name)
+        public void Delete(string name)
         {
+            if (string.IsNullOrEmpty(name))
+                throw new ArgumentNullException("name is empty");
+
             if (Config.HKEY == HKEY.ClassesRoot)
                 reg = Registry.ClassesRoot.OpenSubKey(Config.Address, true);
             else if (Config.HKEY == HKEY.CurrentUser)
@@ -152,9 +176,9 @@ namespace MVRegistry.KeyValue
                 reg = Registry.Users.OpenSubKey(Config.Address, true);
             else
                 reg = Registry.CurrentConfig.OpenSubKey(Config.Address, true);
-            if (reg.GetValue(Name) != null)
+            if (reg.GetValue(name) != null)
             {
-                reg.DeleteValue(Name);
+                reg.DeleteValue(name);
             }
             reg.Close();
         }
@@ -178,8 +202,11 @@ namespace MVRegistry.KeyValue
             return reglist;
         }
 
-        public string Get(string Name)
+        public string Get(string name)
         {
+            if (string.IsNullOrEmpty(name))
+                throw new ArgumentNullException("name is empty");
+
             if (Config.HKEY == HKEY.ClassesRoot)
                 reg = Registry.ClassesRoot.OpenSubKey(Config.Address, true);
             else if (Config.HKEY == HKEY.CurrentUser)
@@ -191,12 +218,18 @@ namespace MVRegistry.KeyValue
             else
                 reg = Registry.CurrentConfig.OpenSubKey(Config.Address, true);
             string value = string.Empty;
-            if (reg.GetValue(Name) != null)
+            if (reg.GetValue(name) != null)
             {
-                value = reg.GetValue(Name).ToString();
+                value = reg.GetValue(name).ToString();
             }
             reg.Close();
             return value;
+        }
+
+        public void Dispose()
+        {
+            reg.Close();
+            reg.Dispose();
         }
     }
 }
