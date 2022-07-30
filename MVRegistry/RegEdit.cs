@@ -1,31 +1,22 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Win32;
-using MVRegistry.KeyValue;
 using System.Security.Principal;
+using MVRegistry.KeyValue;
 
 namespace MVRegistry
 {
     public class RegEdit : IDisposable
     {
-        IRegKey _regkey;
-        IRegValue _regvalue;
+        string _path = string.Empty;
+        HKEY _hkey = HKEY.CurrentUser;
+        RegKey _regkey = null;
+        RegValue _regvalue = null;
 
-        public RegEdit()
+        public RegEdit(HKEY hkey, string path)
         {
             _regkey = new RegKey();
             _regvalue = new RegValue();
-        }
-
-        public RegEdit(HKEY hkey, string address)
-        {
             HKEY = hkey;
-            Address = address;
-            _regkey = new RegKey();
-            _regvalue = new RegValue();
+            Path = path;
         }
 
         public IRegKey Key
@@ -48,23 +39,27 @@ namespace MVRegistry
         {
             get
             {
-                return Config.HKEY;
+                return _hkey;
             }
             set
             {
-                Config.HKEY = value;
+                _hkey = value;
+                _regkey.HKEY = _hkey;
+                _regvalue.HKEY = _hkey;
             }
         }
 
-        public string Address
+        public string Path
         {
             get
             {
-                return Config.Address;
+                return _path;
             }
             set
             {
-                Config.Address = Corrector(value);
+                _path = value;
+                _regkey.Path = _path;
+                _regvalue.Path = _path;
             }
         }
 
@@ -86,29 +81,6 @@ namespace MVRegistry
                 isAdmin = false;
             }
             return isAdmin;
-        }
-
-        private string Corrector(string address)
-        {
-            if (address.Contains("HKEY_CLASSES_ROOT"))
-                address = address.Replace("HKEY_CLASSES_ROOT", "");
-
-            else if (address.Contains("HKEY_CURRENT_USER"))
-                address = address.Replace("HKEY_CURRENT_USER", "");
-
-            else if (address.Contains("HKEY_LOCAL_MACHINE"))
-                address = address.Replace("HKEY_LOCAL_MACHINE", "");
-
-            else if (address.Contains("HKEY_USERS"))
-                address = address.Replace("HKEY_USERS", "");
-
-            else if (address.Contains("HKEY_CURRENT_CONFIG"))
-                address = address.Replace("HKEY_CURRENT_CONFIG", "");
-
-            if (address.StartsWith("\\"))
-                address = address.Remove(0, 1);
-
-            return address;
         }
 
         public void Dispose()

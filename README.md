@@ -26,58 +26,56 @@ using MVRegistry;
 
 try
 {
-    RegEdit reg = new RegEdit();
+    //Select HKEY_CURRENT_USER\Software
+    RegEdit reg = new RegEdit(HKEY.CurrentUser, "Software");
 
-    // program run as admin
+    //Check if run as administrator
     if (reg.IsRunAsAdmin())
     {
-        // Select HKEY_CURRENT_USER
+        //Select HKEY_CURRENT_USER
         reg.HKEY = HKEY.CurrentUser;
 
-        // This path exist this key or not?
-        if (!reg.Key.Exists("MV Soft")) 
+        //This path exist this key or not?
+        if (!reg.Key.Exists("MV Soft"))
         {
             //If not, create this key
             reg.Key.Create("MV Soft");
         }
 
-        // path "HKEY_CURRENT_USER\MV Soft" for create value
-        reg.Address = "MV Soft";
+        //Change path to "HKEY_CURRENT_USER\Software\MV Soft" for create value
+        reg.Path = "Software\\MV Soft";
 
-        // Create the Binary value in the string
-        reg.Value.CreateBinary("Binary1", "1,2,3,4,5,6,7", Encoding.UTF8);
-
-        // Create the Binary value in the byte array
+        //Create the Binary value in the byte array
         reg.Value.CreateBinary("Binary2", new byte[] { 1, 2, 3, 4, 5, 6, 7 });
 
-        // Create the DWord value in the Integer
+        //Create the DWord value in the Integer
         reg.Value.CreateDWord("DWord", 14);
 
-        // Create the ExpandString value in the string
+        //Create the ExpandString value in the string
         reg.Value.CreateExpandString("ExpandString", "Coded By Soheil MV");
 
-        // Create the MultiString value in the string array
+        //Create the MultiString value in the string array
         reg.Value.CreateMultiString("MultiString", new string[] { "a", "b", "c", "d", "e", "f" });
 
-        // Create the QWord value in the Integer
+        //Create the QWord value in the Integer
         reg.Value.CreateQWord("QWord", 14);
 
-        // Create the String value in the string
+        //Create the String value in the string
         reg.Value.CreateString("String", "Coded By Soheil MV");
 
-        // Create the Unknown value in the Object
+        //Create the Unknown value in the Object
         reg.Value.CreateUnknown("Unknown", new string[] { "U", "N", "K", "N", "O", "W", "N" });
 
-        MessageBox.Show("Successfully.", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+        Console.WriteLine("Successfully.");
     }
     else
     {
-        MessageBox.Show("Please program run as admin", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+        Console.WriteLine("Please program run as admin!");
     }
 }
 catch (Exception ex)
 {
-    MessageBox.Show(ex.Message);
+    Console.WriteLine($"Error : {ex.Message}");
 }
 ````
 
