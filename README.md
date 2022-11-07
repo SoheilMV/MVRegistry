@@ -46,22 +46,22 @@ try
         reg.Path = "Software\\MV Soft";
 
         //Create the Binary value in the byte array
-        reg.Value.CreateBinary("Binary2", new byte[] { 1, 2, 3, 4, 5, 6, 7 });
+        reg.Value.CreateBinary("Binary", new byte[] { 1, 2, 3, 4, 5, 6, 7 });
 
-        //Create the DWord value in the Integer
+        //Create the DWord value in the Integer(32bit - 4byte)
         reg.Value.CreateDWord("DWord", 14);
+        
+        //Create the QWord value in the Integer(64bit - 8byte)
+        reg.Value.CreateQWord("QWord", 14);
+        
+        //Create the String value in the string
+        reg.Value.CreateString("String", "Coded By Soheil MV");
 
         //Create the ExpandString value in the string
         reg.Value.CreateExpandString("ExpandString", "Coded By Soheil MV");
 
         //Create the MultiString value in the string array
         reg.Value.CreateMultiString("MultiString", new string[] { "a", "b", "c", "d", "e", "f" });
-
-        //Create the QWord value in the Integer
-        reg.Value.CreateQWord("QWord", 14);
-
-        //Create the String value in the string
-        reg.Value.CreateString("String", "Coded By Soheil MV");
 
         //Create the Unknown value in the Object
         reg.Value.CreateUnknown("Unknown", new string[] { "U", "N", "K", "N", "O", "W", "N" });
@@ -78,7 +78,3 @@ catch (Exception ex)
     Console.WriteLine($"Error : {ex.Message}");
 }
 ````
-
-
-# Donate
-**Bitcoin :** 124NBhKiPTvunTwbYk47w8Zfi47UDrc6hM

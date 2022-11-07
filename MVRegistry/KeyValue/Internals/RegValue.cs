@@ -87,7 +87,7 @@ namespace MVRegistry.KeyValue
             reg.Close();
         }
 
-        public void CreateQWord(string name, int value)
+        public void CreateQWord(string name, long value)
         {
             if (string.IsNullOrEmpty(name))
                 throw new ArgumentNullException("name is empty");
@@ -165,8 +165,6 @@ namespace MVRegistry.KeyValue
             }
             reg.Close();
         }
-
-
 
         public string[] GetNames()
         {

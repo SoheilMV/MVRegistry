@@ -2,9 +2,9 @@
 
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;net46</TargetFrameworks>
-    <AssemblyVersion>2.0.0.0</AssemblyVersion>
-    <FileVersion>2.0.0.0</FileVersion>
-    <Version>2.0.0</Version>
+    <AssemblyVersion></AssemblyVersion>
+    <FileVersion></FileVersion>
+    <Version>2.1</Version>
     <Authors>Soheil MV</Authors>
     <Company>MVSoft</Company>
     <Description>Easy to use registry</Description>
@@ -12,7 +12,7 @@
     <RepositoryType>Git</RepositoryType>
     <PackageTags>registry,regedit</PackageTags>
     <RepositoryUrl>https://github.com/SoheilMV/MVRegistry</RepositoryUrl>
-    <PackageProjectUrl>https://github.com/SoheilMV?tab=repositories</PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/SoheilMV/MVRegistry</PackageProjectUrl>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 

@@ -8,7 +8,7 @@ namespace MVRegistry.KeyValue
         void CreateDWord(string Name, int Value);
         void CreateExpandString(string Name, string Value);
         void CreateMultiString(string Name, string[] Value);
-        void CreateQWord(string Name, int Value);
+        void CreateQWord(string Name, long Value);
         void CreateString(string Name, string Value);
         void CreateUnknown(string Name, object Value);
         void Delete(string Name);
