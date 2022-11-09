@@ -4,7 +4,7 @@
     <TargetFrameworks>netstandard2.0;net46</TargetFrameworks>
     <AssemblyVersion></AssemblyVersion>
     <FileVersion></FileVersion>
-    <Version>2.1</Version>
+    <Version>3.1</Version>
     <Authors>Soheil MV</Authors>
     <Company>MVSoft</Company>
     <Description>Easy to use registry</Description>

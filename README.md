@@ -20,7 +20,7 @@ Easy to use registry
 - GetNames
 - GetValue
 
-## using
+## Using
 ````csharp
 using MVRegistry;
 
@@ -76,5 +76,74 @@ try
 catch (Exception ex)
 {
     Console.WriteLine($"Error : {ex.Message}");
+}
+````
+
+## Serialize and Deserialize
+#### Variables Supported
+| Default | New |
+|-----|-----|
+| int | bool |
+| long | byte |
+| string | char |
+| string[] | decimal |
+| byte[] | double |
+| - | short |
+| - | sbyte |
+| - | float |
+| - | ushort |
+| - | uint |
+| - | ulong |
+| - | DateTime |
+| - | bool[] |
+| - | char[] |
+| - | decimal[] |
+| - | double[] |
+| - | short[] |
+| - | int[] |
+| - | long[] |
+| - | sbyte[] |
+| - | float[] |
+| - | ushort[] |
+| - | uint[] |
+| - | ulong[] |
+
+## Using
+````csharp
+using MVRegistry;
+
+class Program
+{
+    static void Main(string[] args)
+    {
+    
+        //Wirter
+        using (RegEdit reg = new RegEdit(HKEY.CurrentUser, "Software"))
+        {
+            License lic = new License()
+            {
+                Name = "Soheil MV",
+                Expired = DateTime.Now.AddMonths(1),
+                Active = true,
+            };
+            
+            //Create a key with the class name and create values with its variables.
+            reg.Serialize(lic);
+        }
+        
+        //Reader
+        using (RegEdit reg = new RegEdit(HKEY.CurrentUser, "Software"))
+        {
+            //If not found, it return null
+            License lic = reg.Deserialize<License>();
+        }
+    }
+}
+
+class License
+{
+    public string Name { get; set; }
+    public DateTime Expired { get; set; }
+    public bool Active { get; set; }
 }
 ````

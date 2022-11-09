@@ -1,5 +1,4 @@
 using System;
-using System.Text;
 using Microsoft.Win32;
 
 namespace MVRegistry.KeyValue
